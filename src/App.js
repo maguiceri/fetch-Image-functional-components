@@ -1,23 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+
+import { useState, useEffect } from 'react';
+import './App.scss';
 
 function App() {
+  const [data, setData] = useState({})
+
+  async function fetchData() {
+    const getData = await fetch ("https://api.thecatapi.com/v1/images/search")
+    const getJson = await getData.json()
+    console.log(getJson)
+    setData(getJson[0].url)
+  }
+
+  useEffect(() => {
+    fetchData()
+  } , [])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <img className="image" src={data}></img>
     </div>
   );
 }
